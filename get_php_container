@@ -1,0 +1,24 @@
+#!/bin/bash
+
+# Extract the folder name
+FOLDER_NAME=$(basename "$(pwd)")
+
+# Get a list of running Docker containers
+RUNNING_CONTAINERS=$(docker ps --format "{{.Names}}")
+
+# Check if any container name matches or contains {folder name}-php
+MATCHING_CONTAINERS=$(echo "$RUNNING_CONTAINERS" | grep -i "${FOLDER_NAME}-php")
+
+# Count the number of matching containers, then don't proceed unless it's exactly 1
+MATCH_COUNT=$(echo "$MATCHING_CONTAINERS" | wc -l)
+
+if [[ $MATCH_COUNT -eq 1 ]]; then
+    echo "$MATCHING_CONTAINERS"
+    exit 0
+elif [[ $MATCH_COUNT -gt 1 ]]; then
+    echo "Error: Multiple matching PHP containers found."
+    exit 1
+else
+    echo "Error: No matching PHP container found for folder name: $FOLDER_NAME"
+    exit 1
+fi
