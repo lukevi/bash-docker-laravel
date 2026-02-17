@@ -7,7 +7,7 @@ FOLDER_NAME=$(basename "$(pwd)")
 RUNNING_CONTAINERS=$(docker ps --format "{{.Names}}")
 
 # Check if any container name matches {folder name}-php
-MATCHING_CONTAINERS=$(echo "$RUNNING_CONTAINERS" | grep -ix "${FOLDER_NAME}-php")
+MATCHING_CONTAINERS=$(echo "$RUNNING_CONTAINERS" | grep -ix "${FOLDER_NAME}-(franken)?php")
 
 # Count the number of matching containers, then don't proceed unless it's exactly 1
 MATCH_COUNT=$(echo "$MATCHING_CONTAINERS" | wc -l)
